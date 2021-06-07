@@ -26,7 +26,7 @@ SECRET_KEY = '-n#^a#mi_!2)^zv34h-*dcus1t%u_p&xx4a#79-15lr4&08uv1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vtechtalk.herokuapp.com', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['vtechtalk.herokuapp.com', '127.0.0.1:8000','localhost']
 
 # Application definition
 
