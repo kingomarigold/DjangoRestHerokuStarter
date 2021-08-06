@@ -1,5 +1,23 @@
-from django.views.generic import TemplateView
-from django.views.decorators.cache import never_cache
+from rest_framework import viewsets
+from .serializers import UserSerializer, UserViewSerializer
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
-# Serve Single Page Application
-index = never_cache(TemplateView.as_view(template_name='index.html'))
+
+class UsersView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return UserViewSerializer
+        return UserSerializer
+
+    def perform_create(self, instance):
+        current_user = self.request.user
+        user_exists = User.objects.filter(
+            email=self.request.data['email']).first()
+        if user_exists:
+            raise MethodNotAllowed
+        else:
+            instance.save(is_active=True,
+                          password=make_password(self.request.data['password']))
